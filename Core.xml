@@ -6,7 +6,7 @@
         </Backdrop>
         <Layers>
             <Layer level="ARTWORK">
-                <FontString name="$parentTitle" inherits="GameFontNormal" text="ForgeMaster Prime v1.2">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="ForgeMaster Prime v1.2.1">
                     <Anchors><Anchor point="TOP" x="0" y="-12"/></Anchors>
                 </FontString>
                 <FontString name="ForgeMaster_StatusText" inherits="GameFontHighlightSmall" text="Status: Ready">

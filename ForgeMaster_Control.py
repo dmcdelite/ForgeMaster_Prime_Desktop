@@ -1,6 +1,5 @@
 import os
 import json
-import subprocess
 from datetime import datetime
 from ForgeMaster_Injector import inject_code_to_wow
 
@@ -44,35 +43,72 @@ def search_history(query=""):
         print("  No matching history entries.")
     print()
 
-def main_menu():
-    print("=== ForgeMaster Prime Desktop Control ===")
-    print("1. Inject 'Fix_Taint.lua' to Workbench")
-    print("2. Sync VS Code Clipboard to WoW")
-    print("3. Convert last BLP to PNG")
-    print("4. Search Previous Chat/Scan History")
-    print("5. Exit")
-    
-    choice = input("Select Option: ")
-    
-    if choice == "2":
-        # Get whatever is in your Windows/Mac clipboard and send it to WoW
-        import tkinter as tk
-        root = tk.Tk()
-        root.withdraw()
-        clipboard_code = root.clipboard_get()
-        inject_code_to_wow(clipboard_code)
-        log_history("clipboard", clipboard_code[:80] + ("..." if len(clipboard_code) > 80 else ""))
-        print(">>> Clipboard Injected to ForgeMaster Workbench!")
-    
-    elif choice == "1":
-        with open("Fix_Taint.lua", "r") as f:
-            code = f.read()
-            inject_code_to_wow(code)
-            log_history("inject", "Fix_Taint.lua")
+BLP_TOOL = os.path.join(os.path.dirname(__file__), "blp2png.exe")
 
-    elif choice == "4":
-        query = input("Search query (leave blank for all): ")
-        search_history(query)
-            
+def convert_blp_to_png():
+    """Convert the most recently modified .blp file in the current directory to PNG."""
+    blp_files = [f for f in os.listdir(".") if f.lower().endswith(".blp")]
+    if not blp_files:
+        print(">>> No .blp files found in the current directory.")
+        return
+    latest = max(blp_files, key=lambda f: os.path.getmtime(f))
+    out = os.path.splitext(latest)[0] + ".png"
+    if not os.path.exists(BLP_TOOL):
+        print(f">>> BLP converter not found at: {BLP_TOOL}")
+        print("    Place blp2png.exe next to this script and try again.")
+        return
+    ret = os.system(f'"{BLP_TOOL}" "{latest}" "{out}"')
+    if ret == 0:
+        print(f">>> Converted: {latest} -> {out}")
+        log_history("blp_convert", f"{latest} -> {out}")
+    else:
+        print(f">>> Conversion failed (exit code {ret}).")
+
+def main_menu():
+    while True:
+        print("\n=== ForgeMaster Prime Desktop Control ===")
+        print("1. Inject 'Fix_Taint.lua' to Workbench")
+        print("2. Sync VS Code Clipboard to WoW")
+        print("3. Convert last BLP to PNG")
+        print("4. Search Previous Chat/Scan History")
+        print("5. Exit")
+
+        choice = input("Select Option: ").strip()
+
+        if choice == "1":
+            taint_path = os.path.join(os.path.dirname(__file__), "Fix_Taint.lua")
+            if not os.path.exists(taint_path):
+                print(f">>> Fix_Taint.lua not found at: {taint_path}")
+            else:
+                with open(taint_path, "r") as f:
+                    code = f.read()
+                inject_code_to_wow(code)
+                log_history("inject", "Fix_Taint.lua")
+                print(">>> Fix_Taint.lua injected to ForgeMaster Workbench!")
+
+        elif choice == "2":
+            import tkinter as tk
+            root = tk.Tk()
+            root.withdraw()
+            clipboard_code = root.clipboard_get()
+            root.destroy()
+            inject_code_to_wow(clipboard_code)
+            log_history("clipboard", clipboard_code[:80] + ("..." if len(clipboard_code) > 80 else ""))
+            print(">>> Clipboard Injected to ForgeMaster Workbench!")
+
+        elif choice == "3":
+            convert_blp_to_png()
+
+        elif choice == "4":
+            query = input("Search query (leave blank for all): ")
+            search_history(query)
+
+        elif choice == "5":
+            print("Goodbye!")
+            break
+
+        else:
+            print(">>> Invalid option. Please choose 1-5.")
+
 if __name__ == "__main__":
     main_menu()

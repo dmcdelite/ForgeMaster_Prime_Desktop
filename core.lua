@@ -18,7 +18,8 @@ local function OnAddonLoaded(self, event, addon)
     end
 end
 
--- Log an entry to persistent history
+-- Log an entry to persistent history (capped at 500 entries)
+local HISTORY_CAP = 500
 local function LogHistory(entryType, message)
     if ForgeMasterDB and ForgeMasterDB.history then
         table.insert(ForgeMasterDB.history, {
@@ -26,6 +27,15 @@ local function LogHistory(entryType, message)
             message = message,
             timestamp = date("%Y-%m-%d %H:%M:%S"),
         })
+        local h = ForgeMasterDB.history
+        if #h > HISTORY_CAP then
+            local trimmed = {}
+            local start = #h - HISTORY_CAP + 1
+            for i = start, #h do
+                trimmed[#trimmed + 1] = h[i]
+            end
+            ForgeMasterDB.history = trimmed
+        end
     end
 end
 
@@ -55,15 +65,23 @@ function ForgeMasterPrime_SearchHistory(query)
     FMP:SearchHistory(query)
 end
 
--- Slash command: /fm history [query]
+-- Slash command: /fm history [query] | /fm history clear
 SLASH_FORGEMASTER1 = "/fm"
 SlashCmdList["FORGEMASTER"] = function(msg)
     local cmd, rest = msg:match("^(%S+)%s*(.*)")
     if cmd and cmd:lower() == "history" then
-        FMP:SearchHistory(rest ~= "" and rest or nil)
+        if (rest or ""):lower() == "clear" then
+            if ForgeMasterDB and ForgeMasterDB.history then
+                ForgeMasterDB.history = {}
+                print("|cff00ff80ForgeMaster:|r History cleared.")
+            end
+        else
+            FMP:SearchHistory(rest ~= "" and rest or nil)
+        end
     else
         print("|cff00ff80ForgeMaster Prime|r - Commands:")
         print("  /fm history [search] - Search previous scan history")
+        print("  /fm history clear    - Wipe all history entries")
     end
 end
 
