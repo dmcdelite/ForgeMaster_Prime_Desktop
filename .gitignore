@@ -10,3 +10,6 @@ __pycache__/
 
 # Ignore local private config
 ForgeMaster_Control.py
+
+# Ignore runtime history data
+forgemaster_history.json
