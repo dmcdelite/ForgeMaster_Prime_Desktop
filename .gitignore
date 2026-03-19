@@ -1,0 +1,12 @@
+# Ignore Gradle and Java build junk
+.gradle/
+build/
+bin/
+*.class
+
+# Ignore local Python cache
+__pycache__/
+*.pyc
+
+# Ignore local private config
+ForgeMaster_Control.py
