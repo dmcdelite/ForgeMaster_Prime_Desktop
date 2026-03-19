@@ -1,7 +1,13 @@
 import os
 import json
+import subprocess
 from datetime import datetime
-from ForgeMaster_Injector import inject_code_to_wow
+
+try:
+    from ForgeMaster_Injector import inject_code_to_wow
+except ImportError:
+    def inject_code_to_wow(code):
+        print(">>> ForgeMaster_Injector is not installed. Injection is unavailable.")
 
 HISTORY_FILE = os.path.join(os.path.dirname(__file__), "forgemaster_history.json")
 
@@ -57,12 +63,12 @@ def convert_blp_to_png():
         print(f">>> BLP converter not found at: {BLP_TOOL}")
         print("    Place blp2png.exe next to this script and try again.")
         return
-    ret = os.system(f'"{BLP_TOOL}" "{latest}" "{out}"')
-    if ret == 0:
+    result = subprocess.run([BLP_TOOL, latest, out])
+    if result.returncode == 0:
         print(f">>> Converted: {latest} -> {out}")
         log_history("blp_convert", f"{latest} -> {out}")
     else:
-        print(f">>> Conversion failed (exit code {ret}).")
+        print(f">>> Conversion failed (exit code {result.returncode}).")
 
 def main_menu():
     while True:
@@ -87,10 +93,19 @@ def main_menu():
                 print(">>> Fix_Taint.lua injected to ForgeMaster Workbench!")
 
         elif choice == "2":
-            import tkinter as tk
+            try:
+                import tkinter as tk
+            except ImportError:
+                print(">>> tkinter is not available on this system.")
+                continue
             root = tk.Tk()
             root.withdraw()
-            clipboard_code = root.clipboard_get()
+            try:
+                clipboard_code = root.clipboard_get()
+            except tk.TclError:
+                root.destroy()
+                print(">>> Clipboard is empty or unavailable.")
+                continue
             root.destroy()
             inject_code_to_wow(clipboard_code)
             log_history("clipboard", clipboard_code[:80] + ("..." if len(clipboard_code) > 80 else ""))

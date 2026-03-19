@@ -2,6 +2,8 @@
 local addonName, FMP = ...
 FMP.Queue = {}
 FMP.IsScanning = false
+FMP._throttleRetries = 0
+local MAX_THROTTLE_RETRIES = 150  -- ~2 minutes at 0.8 s/retry before giving up
 
 local function UpdateStatus(text)
     if ForgeMaster_StatusText then
@@ -50,7 +52,7 @@ function FMP:SearchHistory(query)
     print("|cff00ff80ForgeMaster " .. header .. "|r")
     local count = 0
     for _, entry in ipairs(ForgeMasterDB.history) do
-        if q == "" or entry.message:lower():find(q, 1, true) then
+        if q == "" or (entry.message and entry.message:lower():find(q, 1, true)) then
             print(string.format("  [%s] %s: %s", entry.timestamp, entry.type, entry.message))
             count = count + 1
         end
@@ -100,16 +102,28 @@ end
 function FMP:ProcessQueue()
     if #self.Queue == 0 then 
         UpdateStatus("|cff00ff00Scan Complete|r")
-        self.IsScanning = false 
+        self.IsScanning = false
+        self._throttleRetries = 0
         return 
     end
-    
+
+    -- Mark as scanning immediately so concurrent StartScan calls don't spawn a second loop
+    self.IsScanning = true
+
     if C_AuctionHouse.IsThrottledMessageSystemReady() then
+        self._throttleRetries = 0
         local nextItem = table.remove(self.Queue, 1)
         UpdateStatus("Scanning: " .. nextItem.id .. " (" .. #self.Queue .. " left)")
         C_AuctionHouse.SendSearchQuery(C_AuctionHouse.MakeItemKey(nextItem.id), {}, false)
-        self.IsScanning = true
     else
+        self._throttleRetries = self._throttleRetries + 1
+        if self._throttleRetries >= MAX_THROTTLE_RETRIES then
+            UpdateStatus("|cffff0000Scan timed out (throttled too long)|r")
+            self.Queue = {}
+            self.IsScanning = false
+            self._throttleRetries = 0
+            return
+        end
         UpdateStatus("|cffaaaaaaThrottled... waiting|r")
     end
     
