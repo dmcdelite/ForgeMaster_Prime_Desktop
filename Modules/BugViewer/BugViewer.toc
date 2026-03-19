@@ -1,0 +1,19 @@
+## BugForge
+# A robust Lua error capture and viewer addon
+# Features:
+# - Captures and stores all Lua errors (with stack traces, timestamps)
+# - Persistent error storage across sessions
+# - UI for browsing, copying, clearing, and exporting errors
+# - Minimap button and slash commands
+# - Search, filter, and organize errors
+
+## Interface
+## Title: BugForge
+## Notes: Captures and displays Lua errors with advanced features
+## Author: YourName
+## Version: 1.0.0
+## SavedVariables: BugForgeDB
+
+Modules/BugViewer/BugForge.lua
+Modules/BugViewer/BugForge_UI.lua
+Modules/BugViewer/CopyToClipboard.lua

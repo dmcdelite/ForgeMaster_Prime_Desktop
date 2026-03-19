@@ -1,9 +1,35 @@
 ## Interface: 120001
-## Title: ForgeMaster |cff00ff80Prime|r
-## Notes: Developer Suite for Midnight 12.0.1
-## Author: dmcdelite
-## Version: 1.2.1
-## SavedVariables: ForgeMasterDB
+## Title: ForgeMaster Prime
+## Notes: Main addon for ForgeMaster Prime
+## Author: ForgeDMC
+## Version: 1.0.0
 
+core.lua
 Core.xml
-Core.lua
+Fix_Taint.lua
+Theme.lua
+UI.lua
+Utils.lua
+wow_stubs.lua
+
+Modules/AIAssistant.lua
+Modules/AITroubleshooter.lua
+Modules/APIExplorer.lua
+Modules/AssetBrowser.lua
+Modules/CompatChecker.lua
+Modules/DesktopReceiver.lua
+Modules/EventRecorder.lua
+Modules/ExportImport.lua
+Modules/FontStyler.lua
+Modules/HotSwap.lua
+Modules/Inspector.lua
+Modules/MacroRunner.lua
+Modules/MediaBrowser.lua
+Modules/Minimap.lua
+Modules/Performance.lua
+Modules/SessionLog.lua
+Modules/Settings.lua
+Modules/TableVisualizer.lua
+Modules/TaintAnalyzer.lua
+Modules/UnitInspector.lua
+Modules/WarbandScanner.lua
