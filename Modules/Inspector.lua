@@ -31,3 +31,5 @@ function Inspector:Start()
         end
     end)
 end
+
+ForgeMaster:RegisterModule("Inspector", Inspector)

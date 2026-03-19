@@ -38,4 +38,5 @@ function CompatChecker:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("CompatChecker", CompatChecker)
 return CompatChecker

@@ -39,4 +39,5 @@ function MediaBrowser:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("MediaBrowser", MediaBrowser)
 return MediaBrowser

@@ -35,4 +35,5 @@ function SessionLog:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("SessionLog", SessionLog)
 return SessionLog

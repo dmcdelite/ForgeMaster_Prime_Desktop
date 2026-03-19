@@ -24,6 +24,21 @@ function ForgeMaster.Theme:CreatePanel(parent, name)
     return f
 end
 
+function ForgeMaster:RegisterModule(name, module)
+    self.Modules = self.Modules or {}
+    self.Modules[name] = module
+end
+
+function ForgeMaster:GetModule(name, silent)
+    if self.Modules and self.Modules[name] then
+        return self.Modules[name]
+    end
+    if not silent then
+        error("ForgeMaster: module not found: " .. tostring(name))
+    end
+    return nil
+end
+
 function ForgeMaster.Theme:ApplyStyle(f)
     f:SetBackdrop({
         bgFile = "Interface\\Buttons\\WHITE8X8",

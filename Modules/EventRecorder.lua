@@ -48,3 +48,5 @@ function EventRec:OnEnable()
         if #self.Logs > 100 then table.remove(self.Logs) end
     end)
 end
+
+ForgeMaster:RegisterModule("EventRecorder", EventRec)

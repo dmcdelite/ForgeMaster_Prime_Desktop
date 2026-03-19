@@ -105,4 +105,5 @@ function HotSwap:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("HotSwap", HotSwap)
 return HotSwap

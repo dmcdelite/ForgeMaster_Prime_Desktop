@@ -28,3 +28,5 @@ function FontStyler:CreateView(parent)
     end)
     self.View = f
 end
+
+ForgeMaster:RegisterModule("FontStyler", FontStyler)

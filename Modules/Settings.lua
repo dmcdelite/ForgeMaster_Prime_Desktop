@@ -81,3 +81,4 @@ function Settings:CreateView(parent)
 end
 
 _G.ForgeMasterSettings = Settings
+ForgeMaster:RegisterModule("Settings", Settings)

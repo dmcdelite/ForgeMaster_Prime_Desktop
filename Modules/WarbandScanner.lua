@@ -25,3 +25,5 @@ function Warband:UpdateData()
     self.View.Gold:SetText(string.format("Total Warband Gold: |cffffd700%s|r", GetMoneyString(totalGold)))
     print("|cff00ff80[ForgeMaster Warband]|r Account wealth scanned.")
 end
+
+ForgeMaster:RegisterModule("WarbandScanner", Warband)

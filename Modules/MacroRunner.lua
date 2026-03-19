@@ -38,4 +38,5 @@ function MacroRunner:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("MacroRunner", MacroRunner)
 return MacroRunner

@@ -38,4 +38,5 @@ function AIAssistant:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("AIAssistant", AIAssistant)
 return AIAssistant

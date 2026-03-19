@@ -41,4 +41,5 @@ function ExportImport:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("ExportImport", ExportImport)
 return ExportImport
