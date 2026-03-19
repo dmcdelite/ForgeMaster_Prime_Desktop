@@ -38,4 +38,5 @@ function TaintAnalyzer:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("TaintAnalyzer", TaintAnalyzer)
 return TaintAnalyzer

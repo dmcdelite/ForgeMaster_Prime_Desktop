@@ -148,4 +148,5 @@ function APIExplorer:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("APIExplorer", APIExplorer)
 return APIExplorer

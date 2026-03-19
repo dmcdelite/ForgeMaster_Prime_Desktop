@@ -22,3 +22,5 @@ function Assets:CreateView()
     end)
     self.View = f
 end
+
+ForgeMaster:RegisterModule("AssetBrowser", Assets)

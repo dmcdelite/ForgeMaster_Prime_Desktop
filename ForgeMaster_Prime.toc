@@ -4,13 +4,16 @@
 ## Author: ForgeDMC
 ## Version: 1.0.0
 
+Libs\LibStub.lua
+Libs\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0.lua
+
 core.lua
 Core.xml
 Fix_Taint.lua
 Theme.lua
 UI.lua
 Utils.lua
-wow_stubs.lua
 
 Modules/AIAssistant.lua
 Modules/AITroubleshooter.lua

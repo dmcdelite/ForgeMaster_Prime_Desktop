@@ -25,3 +25,5 @@ function TableVis:CreateView(parent)
     f.Result = result
     self.View = f
 end
+
+ForgeMaster:RegisterModule("TableVisualizer", TableVis)

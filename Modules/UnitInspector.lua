@@ -109,4 +109,5 @@ function UnitInspector:CreateView(parent)
     return f
 end
 
+ForgeMaster:RegisterModule("UnitInspector", UnitInspector)
 return UnitInspector

@@ -35,3 +35,5 @@ function Perf:CreateView(parent)
     f.List:SetText("Click Refresh to view stats.")
     self.View = f
 end
+
+ForgeMaster:RegisterModule("Performance", Perf)
