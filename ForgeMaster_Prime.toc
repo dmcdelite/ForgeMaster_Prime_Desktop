@@ -1,0 +1,9 @@
+## Interface: 120001
+## Title: ForgeMaster |cff00ff80Prime|r
+## Notes: Developer Suite for Midnight 12.0.1
+## Author: dmcdelite
+## Version: 1.2.1
+## SavedVariables: ForgeMasterDB
+
+Core.xml
+Core.lua

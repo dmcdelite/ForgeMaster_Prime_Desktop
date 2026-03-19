@@ -1,8 +1,0 @@
-## Interface: 110007
-## Title: TradeMaster Prime
-## Notes: AI-Optimized Auction House Scanner
-## Author: dmcdelite
-## Version: 1.0.0
-
-Core.xml
-Core.lua
